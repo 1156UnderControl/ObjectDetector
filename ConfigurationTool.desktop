@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ConfigurationTool
+Exec=lxterminal -e "python3 /home/pi/Desktop/scripts/ObjectDetectorConfigurationTool.py;$SHELL"
+Icon=lxterminal
+Terminal=true
+Type=Application
+Categories=Utility;
