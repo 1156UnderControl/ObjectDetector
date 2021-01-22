@@ -32,7 +32,9 @@ cd Desktop
 sudo sh Setup.sh
 ```
 Como o script de setup deve baixar e instalar várias dependências, este processo pode levar algum tempo. Ao fim a Raspberry Pi será automaticamente reinicializada e o detector de objetos deverá rodar automaticamente sempre que esta for ligada. Inicialmente é esperado que este falhe mencionando a falta do arquivo `configuration.xml`. Isto acontece pois o detector utiliza arquivos de configuração para determinar onde buscar a bola para determinar o layout e que cores buscar. Como a pasta object-detection é criada pelo script de setup, esta está vazia. Quando os arquivos de configuração estiverem colocados lá, este erro deve parar.
+
 *Obs: Se o erro estiver mencionando que não é possível acessar a câmera pois a interface está desabilitada, isto significa que ou a câmera não está conectada corretamente ou o passo anterior onde a interface de câmera é habilitada não foi completo.*
+
 *Obs 2: A câmera utilizada deve ser uma câmera de barramento, conectada por um cabo flat diretamente na placa de circuitos. Webcams USB não irão funcionar no script de execução. Caso o uso destas seja necessário, o script deve ser modificado.*
 
 ## Uso
