@@ -5,6 +5,7 @@ from picamera import PiCamera
 from XML import XML
 import threading
 import time
+import logging
 
 cond = threading.Condition()
 notified = [False]
@@ -30,6 +31,7 @@ def takePicture():
     camera.capture(rawCapture, format="bgr")
     return rawCapture.array
 
+logging.basicConfig(level=logging.DEBUG)
 runtimeConfiguration = XML("/home/pi/Desktop/scripts/runtime.xml")
 detectionXMLName = "/home/pi/Desktop/object-detection/" + runtimeConfiguration.getText("configurationXML")
 print("Detection configuration file: " + detectionXMLName)
