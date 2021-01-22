@@ -69,4 +69,5 @@ Variáveis:
 
 
 ## Contato
-Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@](https://github.com/orgs/1156UnderControl/people/Silvxo)
+Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@
+Silvxo](https://github.com/orgs/1156UnderControl/people/Silvxo)
