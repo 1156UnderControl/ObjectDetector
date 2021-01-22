@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ObjectDetectorRuntime
+Exec=lxterminal -e "python3 /home/pi/Desktop/scripts/ObjectDetectorRuntime.py;$SHELL"
+Icon=lxterminal
+Terminal=true
+Type=Application
+Categories=Utility;

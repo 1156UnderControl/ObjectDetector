@@ -1,0 +1,4 @@
+<configuration>
+    <ip>10.11.56.1</ip>
+    <configurationXML>configuration.xml</configurationXML>
+</configuration>
