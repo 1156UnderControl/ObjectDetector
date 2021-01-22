@@ -66,10 +66,9 @@ Para que o resultado da detecção seja lido no roborio, é necessário que a Ra
 tabela: "CameraVision"
 ```
 Variáveis:
-- isDisabled(boolean): Esta variável inicia como false e pode ser ativada pelo roborio para fazer com que o software pare de atualizar a detecção de objeto. Esta variável só é setada para false automaticamente quando a Raspberry Pi é reiniciada ou o código de execução é manualmente reiniciado.
-- isDetected(boolean): Esta variável representa se o objeto buscado está presente na área desejada. Ela é atualizada pelo software a cada 200ms e não requer que o robô esteja habilitado para estar atualizada.
+- `isDisabled`(boolean): Esta variável inicia como false e pode ser ativada pelo roborio para fazer com que o software pare de atualizar a detecção de objeto. Esta variável só é setada para false automaticamente quando a Raspberry Pi é reiniciada ou o código de execução é manualmente reiniciado.
+- `isDetected`(boolean): Esta variável representa se o objeto buscado está presente na área desejada. Ela é atualizada pelo software a cada 200ms e não requer que o robô esteja habilitado para estar atualizada.
 
 
 ## Contato
-Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@
-Silvxo](https://github.com/orgs/1156UnderControl/people/Silvxo)
+Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@Silvxo](https://github.com/orgs/1156UnderControl/people/Silvxo)
