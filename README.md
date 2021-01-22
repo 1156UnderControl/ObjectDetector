@@ -6,7 +6,9 @@ Algoritmo de detecção de objetos para encontrar a configuração de bolas no a
 Este software utiliza uma Raspberry Pi (Testado com [modelo 3 B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)) juntamente com uma câmera ([Picamera V2](https://www.raspberrypi.org/products/camera-module-v2/)) para detectar a configuração de objetos de jogo nos desafios at home (2021) e possibilitar ao robô a escolha do autônomo correto.
 
 ### Conceito de Funcionamento
-Para detectar o layout de bolas, o algoritmo pressupõe que o robô sempre inicie na mesma posição para cada circuito. Desta forma, uma câmera posicionada no robô deve esperar encontrar as bolas aproximadamente no mesmo lugar sempre que iniciar um desafio. Utilizando este conhecimento, o software é configurado para, ao início de uma execução do circuito, tirar uma foto com a câmera da Raspberry Pi e cortar a imagem apenas a uma região onde a presença de uma bola é esperada apenas se o circuito estiver na configuração A ou apenas se o circuito estiver na configuração B. A partir deste recorte, o software utiliza filtros de cor para estabelecer se um percentual significativo da imagem é preenchido pela cor da bola, se sim, o valor verdadeiro é retornado indicando que a posição das bolas é a A (Caso a bola observada esteja presente apenas na configuração A). O retorno desta variável ao roboRIO é feito por meio de networktables, isto são variáveis que são compartilhadas por meio da rede que é utilizada pelo robô. Esta forma de compartilhamento de dados é a mesma utilizada pela dashboard do robô, apenas utilizando um nome de tabela diferente e nomes de variáveis diferentes, assim, estes dados podem ser vistos da mesma forma que dados provenientes da dashboard. Com este resultado de verdadeiro ou falso, o roboRIO está capacitado para escolher o percurso correto para adquirir as bolas da maneira mais eficiente possível.
+Para detectar o layout de bolas, o algoritmo pressupõe que o robô sempre inicie na mesma posição para cada circuito. Desta forma, uma câmera posicionada no robô deve esperar encontrar as bolas aproximadamente no mesmo lugar sempre que iniciar um desafio. Utilizando este conhecimento, o software é configurado para, ao início de uma execução do circuito, tirar uma foto com a câmera da Raspberry Pi e cortar a imagem apenas a uma região onde a presença de uma bola é esperada apenas se o circuito estiver na configuração A ou apenas se o circuito estiver na configuração B. A partir deste recorte, o software utiliza filtros de cor para estabelecer se um percentual significativo da imagem é preenchido pela cor da bola, se sim, o valor verdadeiro é retornado indicando que a posição das bolas é a A (Caso a bola observada esteja presente apenas na configuração A). O retorno desta variável ao roboRIO é feito por meio de networktables, isto são variáveis que são compartilhadas por meio da rede que é utilizada pelo robô. Esta forma de compartilhamento de dados é a mesma utilizada pela dashboard do robô, apenas utilizando um nome de tabela diferente e nomes de variáveis diferentes, assim, estes dados podem ser vistos da mesma forma que dados provenientes da dashboard. Com este resultado de verdadeiro ou falso, o roboRIO está capacitado para escolher o percurso correto para adquirir as bolas da maneira mais eficiente possível. De uma maneira resumida, o fluxo é o seguinte:
+
+**Tirar Foto > Cortar Área Relevante > Detectar Cor da Bola Usando HSV > Calcular Percentual de Preenchimento > Comparar com Valor Mínimo**
 
 
 ## Setup
@@ -32,7 +34,9 @@ cd Desktop
 sudo sh Setup.sh
 ```
 Como o script de setup deve baixar e instalar várias dependências, este processo pode levar algum tempo. Ao fim a Raspberry Pi será automaticamente reinicializada e o detector de objetos deverá rodar automaticamente sempre que esta for ligada. Inicialmente é esperado que este falhe mencionando a falta do arquivo `configuration.xml`. Isto acontece pois o detector utiliza arquivos de configuração para determinar onde buscar a bola para determinar o layout e que cores buscar. Como a pasta object-detection é criada pelo script de setup, esta está vazia. Quando os arquivos de configuração estiverem colocados lá, este erro deve parar.
+
 *Obs: Se o erro estiver mencionando que não é possível acessar a câmera pois a interface está desabilitada, isto significa que ou a câmera não está conectada corretamente ou o passo anterior onde a interface de câmera é habilitada não foi completo.*
+
 *Obs 2: A câmera utilizada deve ser uma câmera de barramento, conectada por um cabo flat diretamente na placa de circuitos. Webcams USB não irão funcionar no script de execução. Caso o uso destas seja necessário, o script deve ser modificado.*
 
 ## Uso
@@ -64,10 +68,9 @@ Para que o resultado da detecção seja lido no roborio, é necessário que a Ra
 tabela: "CameraVision"
 ```
 Variáveis:
-- isDisabled(boolean): Esta variável inicia como false e pode ser ativada pelo roborio para fazer com que o software pare de atualizar a detecção de objeto. Esta variável só é setada para false automaticamente quando a Raspberry Pi é reiniciada ou o código de execução é manualmente reiniciado.
-- isDetected(boolean): Esta variável representa se o objeto buscado está presente na área desejada. Ela é atualizada pelo software a cada 200ms e não requer que o robô esteja habilitado para estar atualizada.
+- `isDisabled`(boolean): Esta variável inicia como false e pode ser ativada pelo roborio para fazer com que o software pare de atualizar a detecção de objeto. Esta variável só é setada para false automaticamente quando a Raspberry Pi é reiniciada ou o código de execução é manualmente reiniciado.
+- `isDetected`(boolean): Esta variável representa se o objeto buscado está presente na área desejada. Ela é atualizada pelo software a cada 200ms e não requer que o robô esteja habilitado para estar atualizada.
 
 
 ## Contato
-Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@
-Silvxo](https://github.com/orgs/1156UnderControl/people/Silvxo)
+Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@Silvxo](https://github.com/orgs/1156UnderControl/people/Silvxo)
