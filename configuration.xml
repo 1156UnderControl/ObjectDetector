@@ -1,0 +1,31 @@
+<configuration>
+    <thresholds>
+        <hue>
+            <minimum>120</minimum>
+            <maximum>160</maximum>
+        </hue>
+        <saturation>
+            <minimum>0</minimum>
+            <maximum>100</maximum>
+        </saturation>
+        <value>
+            <minimum>50</minimum>
+            <maximum>200</maximum>
+        </value>
+    </thresholds>
+    <resolution>
+        <width>1280</width>
+        <height>720</height>
+    </resolution>
+    <scanarea>
+        <xcoordinates>
+            <minimum>987</minimum>
+            <maximum>1133</maximum>
+        </xcoordinates>
+        <ycoordinates>
+            <minimum>173</minimum>
+            <maximum>333</maximum>
+        </ycoordinates>
+        <fullness>20</fullness>
+    </scanarea>
+</configuration>
