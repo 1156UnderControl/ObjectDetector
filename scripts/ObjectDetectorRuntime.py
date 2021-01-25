@@ -7,14 +7,6 @@ import threading
 import time
 import logging
 
-cond = threading.Condition()
-notified = [False]
-
-def connectionListener(connected, info):
-    print(info, '; Connected=%s' % connected)
-    with cond:
-        notified[0] = True
-        cond.notify()
         
 def startCamera(detectionXMLName):
     camera = PiCamera()
@@ -40,14 +32,7 @@ objectDetector = ObjectDetector(detectionXMLName)
 ip = runtimeConfiguration.getText("ip")
 print("Target networktables ip: " + ip)
 NetworkTables.initialize(server=ip)
-NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
 
-with cond:
-    print("Waiting")
-    if not notified[0]:
-        cond.wait()
-
-# Insert your processing code here
 print("Connected!")
 cameraVision = NetworkTables.getTable("CameraVision")
 isDisabled = False
@@ -66,4 +51,4 @@ while True:
     counter += 1
     if counter >= 10:
         counter = 0
-        print("[STATUS] isDisabled: " + isDisabled + "\t\tisDetected: " + isDetected)
+        print("[STATUS] isDisabled: " + str(isDisabled) + "\t\tisDetected: " + str(isDetected))
