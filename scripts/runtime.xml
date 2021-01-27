@@ -1,4 +1,5 @@
 <configuration>
     <ip>10.11.56.1</ip>
+    <port>5800</port>
     <configurationXML>configuration.xml</configurationXML>
 </configuration>

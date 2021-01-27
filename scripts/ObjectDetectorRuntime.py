@@ -1,20 +1,10 @@
-from networktables import NetworkTables
 from ObjectDetector import ObjectDetector
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from XML import XML
-import threading
+import socket
 import time
-import logging
 
-cond = threading.Condition()
-notified = [False]
-
-def connectionListener(connected, info):
-    print(info, '; Connected=%s' % connected)
-    with cond:
-        notified[0] = True
-        cond.notify()
         
 def startCamera(detectionXMLName):
     camera = PiCamera()
@@ -31,37 +21,26 @@ def takePicture():
     camera.capture(rawCapture, format="bgr")
     return rawCapture.array
 
-logging.basicConfig(level=logging.DEBUG)
 runtimeConfiguration = XML("/home/pi/Desktop/scripts/runtime.xml")
 detectionXMLName = "/home/pi/Desktop/object-detection/" + runtimeConfiguration.getText("configurationXML")
 print("Detection configuration file: " + detectionXMLName)
 camera, rawCapture = startCamera(detectionXMLName)
 objectDetector = ObjectDetector(detectionXMLName)
 ip = runtimeConfiguration.getText("ip")
-print("Target networktables ip: " + ip)
-NetworkTables.initialize(server=ip)
-NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
+port = runtimeConfiguration.getValue("port")
+print("UDP Target: " + ip + ":" + port)
+UDPSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-with cond:
-    print("Waiting")
-    if not notified[0]:
-        cond.wait()
 
-# Insert your processing code here
-print("Connected!")
-cameraVision = NetworkTables.getTable("CameraVision")
-isDisabled = False
 isDetected = False
 counter = 0
-cameraVision.putBoolean("isDisabled", isDisabled)
-cameraVision.putBoolean("isDetected", isDetected)
 
 while True:
-    isDisabled = cameraVision.getBoolean("isDisabled", False)
     if not isDisabled:
         image = takePicture()
         isDetected = objectDetector.evaluate(image)
-        cameraVision.putBoolean("isDetected", isDetected)
+        byte_message = bytes("isDetected:" + str(isDetected), "utf-8")
+        UDPSocket.sendto(byte_message, (ip, port))
     time.sleep(0.1)
     counter += 1
     if counter >= 10:
