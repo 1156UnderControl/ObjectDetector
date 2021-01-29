@@ -64,7 +64,6 @@ O arquivo contendo estas configurações é chamado de `runtime.xml` e pode ser 
 
 ### Leitura pelo roboRIO
 Para que o resultado da detecção seja lido no roborio, é necessário que a Raspberry Pi esteja conectada via USB ou ethernet. Os dados serão disponibilizados por meio de comunicação UDP. A diferença é o nome das variáveis, que são as seguintes:
-```
 
 Variáveis:
 
