@@ -6,7 +6,7 @@ Algoritmo de detecção de objetos para encontrar a configuração de bolas no a
 Este software utiliza uma Raspberry Pi (Testado com [modelo 3 B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)) juntamente com uma câmera ([Picamera V2](https://www.raspberrypi.org/products/camera-module-v2/)) para detectar a configuração de objetos de jogo nos desafios at home (2021) e possibilitar ao robô a escolha do autônomo correto.
 
 ### Conceito de Funcionamento
-Para detectar o layout de bolas, o algoritmo pressupõe que o robô sempre inicie na mesma posição para cada circuito. Desta forma, uma câmera posicionada no robô deve esperar encontrar as bolas aproximadamente no mesmo lugar sempre que iniciar um desafio. Utilizando este conhecimento, o software é configurado para, ao início de uma execução do circuito, tirar uma foto com a câmera da Raspberry Pi e cortar a imagem apenas a uma região onde a presença de uma bola é esperada apenas se o circuito estiver na configuração A ou apenas se o circuito estiver na configuração B. A partir deste recorte, o software utiliza filtros de cor para estabelecer se um percentual significativo da imagem é preenchido pela cor da bola, se sim, o valor verdadeiro é retornado indicando que a posição das bolas é a A (Caso a bola observada esteja presente apenas na configuração A). O retorno desta variável ao roboRIO é feito por meio de networktables, isto são variáveis que são compartilhadas por meio da rede que é utilizada pelo robô. Esta forma de compartilhamento de dados é a mesma utilizada pela dashboard do robô, apenas utilizando um nome de tabela diferente e nomes de variáveis diferentes, assim, estes dados podem ser vistos da mesma forma que dados provenientes da dashboard. Com este resultado de verdadeiro ou falso, o roboRIO está capacitado para escolher o percurso correto para adquirir as bolas da maneira mais eficiente possível. De uma maneira resumida, o fluxo é o seguinte:
+Para detectar o layout de bolas, o algoritmo pressupõe que o robô sempre inicie na mesma posição para cada circuito. Desta forma, uma câmera posicionada no robô deve esperar encontrar as bolas aproximadamente no mesmo lugar sempre que iniciar um desafio. Utilizando este conhecimento, o software é configurado para, ao início de uma execução do circuito, tirar uma foto com a câmera da Raspberry Pi e cortar a imagem apenas a uma região onde a presença de uma bola é esperada apenas se o circuito estiver na configuração A ou apenas se o circuito estiver na configuração B. A partir deste recorte, o software utiliza filtros de cor para estabelecer se um percentual significativo da imagem é preenchido pela cor da bola, se sim, o valor verdadeiro é retornado indicando que a posição das bolas é a A (Caso a bola observada esteja presente apenas na configuração A). O retorno desta variável ao roboRIO é feito por meio de comunicação UDP, um método de comunicação via cabo (tanto USB quanto Ethenet). Com este resultado de verdadeiro ou falso, o roboRIO está capacitado para escolher o percurso correto para adquirir as bolas da maneira mais eficiente possível. De uma maneira resumida, o fluxo é o seguinte:
 
 **Tirar Foto > Cortar Área Relevante > Detectar Cor da Bola Usando HSV > Calcular Percentual de Preenchimento > Comparar com Valor Mínimo**
 
@@ -57,19 +57,24 @@ De maneira concisa, os parâmetros que devem ser calibrados nesta ferramenta sã
 
 ### Configuração de Execução
 Na pasta scripts, existe um arquivo utilizado para configurar dois parâmetros:
-- ip: Este é o IP utilizado para conectar no servidor do networktables. Este deve ser o mesmo IP que o utilizado pela dashboard
+- ip: Este é o IP utilizado para conectar no servidor. Este deve ser o mesmo IP que o utilizado pela dashboard, no caso, o IP do roboRIO.
 - configurationXML: Este é o nome do arquivo XML de configuração, gerado pelo passo anteror, que deve ser utilizado em execução (o arquivo deve estar na pasta object-detection)
 
 O arquivo contendo estas configurações é chamado de `runtime.xml` e pode ser modificado com um editor de texto comum. Na Raspberry Pi isto pode ser feito com o Geany (Disponível ao clicar com o botão direito do mouse neste arquivo)
 
 ### Leitura pelo roboRIO
-Para que o resultado da detecção seja lido no roborio, é necessário que a Raspberry Pi esteja na mesma rede que este. Os dados serão disponibilizados da mesma forma que dados da dashboard, por meio de networktables. A diferença é o nome de tabela e de variáveis, que são os seguintes:
-```
-tabela: "CameraVision"
+Para que o resultado da detecção seja lido no roborio, é necessário que a Raspberry Pi esteja conectada via USB ou ethernet. Os dados serão disponibilizados por meio de comunicação UDP. A diferença é o nome das variáveis, que são as seguintes:
 ```
 Variáveis:
 - `isDisabled`(boolean): Esta variável inicia como false e pode ser ativada pelo roborio para fazer com que o software pare de atualizar a detecção de objeto. Esta variável só é setada para false automaticamente quando a Raspberry Pi é reiniciada ou o código de execução é manualmente reiniciado.
 - `isDetected`(boolean): Esta variável representa se o objeto buscado está presente na área desejada. Ela é atualizada pelo software a cada 100ms e não requer que o robô esteja habilitado para estar atualizada.
+
+Programação para a conexão UDP
+- Para programar precisa-se ter 1 informação, qual o valor da porta, que normalmente é estabelecido como *5800*. Sabendo disso, deve-se abrir o periodic Tasks, abrir um while loop e a palheta UDP. Feito isso, use o bloco de nome "UDP Open" fora do loop e adicione uma constante na entrada "port" com o número da porta. Ainda com a palheta, adicione o bloco "UDP Read" dentro do loop, ligue um indicador a ele para verificar qual a infromação que a RPi está passando. Depois disso, adicione, fora do loop, o bloco "UDP Fisnish". Ao final disso, conecte todos os blocos na respectiva ordem pelo "Conection ID" e "Error in/out".
+
+Exemplo:
+
+![ibage](https://user-images.githubusercontent.com/56368014/106283304-854fb100-6220-11eb-8b41-325632984aad.png)
 
 
 ## Contato
