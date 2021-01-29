@@ -65,6 +65,7 @@ O arquivo contendo estas configurações é chamado de `runtime.xml` e pode ser 
 ### Leitura pelo roboRIO
 Para que o resultado da detecção seja lido no roborio, é necessário que a Raspberry Pi esteja conectada via USB ou ethernet. Os dados serão disponibilizados por meio de comunicação UDP. A diferença é o nome das variáveis, que são as seguintes:
 ```
+
 Variáveis:
 
 - `isDisabled`(boolean): Esta variável inicia como false e pode ser ativada pelo roborio para fazer com que o software pare de atualizar a detecção de objeto. Esta variável só é setada para false automaticamente quando a Raspberry Pi é reiniciada ou o código de execução é manualmente reiniciado.
