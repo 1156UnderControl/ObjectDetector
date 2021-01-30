@@ -50,7 +50,7 @@ Isto irá abrir uma linha de comando utilizada para definir a detecção. Esta l
 help
 ```
 De maneira concisa, os parâmetros que devem ser calibrados nesta ferramenta são:
-- Resolução (O padrão é 1920x1080)
+- Resolução [default: 1920x1080]
 - Área de busca: esta é a área da foto onde o software irá buscar a cor da bola para detectar se esta está presente ou não (É recomendado evitar buscar bolas em áreas onde exista uma possibilidade de uma bola indesejada aparecer se o robô não estiver posicionado perfeitamente. Bolas isoladas são as mais recomendáveis)
 - Cor: A cor considerada como a da bola é definida por HSV (Hue, Saturation, Value) ao invés de RGB. Para cada uma das 3 variáveis é definido um valor mínimo e um máximo, que podem ser configurados por seleção na foto ou manualmente
 - Fullness: Este seria o preenchimento esperado da área onde o objeto está sendo procurado. Um valor de 5 significaria que o detector apenas considerará a presença de uma bola se 5% ou mais da área observada estiver dentro da cor selecionada.
