@@ -57,8 +57,9 @@ De maneira concisa, os parâmetros que devem ser calibrados nesta ferramenta sã
 
 ### Configuração de Execução
 Na pasta scripts, existe um arquivo utilizado para configurar dois parâmetros:
-- ip: Este é o IP utilizado para conectar no servidor. Este deve ser o mesmo IP que o utilizado pela dashboard, no caso, o IP do roboRIO.
-- configurationXML: Este é o nome do arquivo XML de configuração, gerado pelo passo anteror, que deve ser utilizado em execução (o arquivo deve estar na pasta object-detection)
+- `ip`: Este é o IP utilizado para conectar no servidor. Este deve ser o mesmo IP que o utilizado pela dashboard, no caso, o IP do roboRIO. [default: 10.11.56.4]
+- `port`: Esta é a porta utilizada para a comunicação UDP e deve coincidir com a porta utilizada na programação do roboRIO. As portas liberadas para utilização dos times são 5800-5810. [default: 5800]
+- `configurationXML`: Este é o nome do arquivo XML de configuração, gerado pelo passo anteror, que deve ser utilizado em execução (o arquivo deve estar na pasta object-detection). [default: configuration.xml]
 
 O arquivo contendo estas configurações é chamado de `runtime.xml` e pode ser modificado com um editor de texto comum. Na Raspberry Pi isto pode ser feito com o Geany (Disponível ao clicar com o botão direito do mouse neste arquivo)
 
