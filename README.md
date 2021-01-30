@@ -78,6 +78,7 @@ Exemplo:
 
 ![ibage](https://user-images.githubusercontent.com/56368014/106283304-854fb100-6220-11eb-8b41-325632984aad.png)
 
+*Obs: Para traduzir a saída para um booleano mais utilizável a maneira ideal é comparar esta com as strings "isDetected:true" e "isDetected:false". Se a detecção for true, setar a variável para true, se esta for false setar a variável para false e se o texto for diferente (alguma outra mensagem enviada por UDP para esta porta), manter a variável no mesmo estado que já está.*
 
 ## Contato
 Para dúvidas em relação ao funcionamento do detector entrar em contato com [@HenriqueSchmitz](https://github.com/orgs/1156UnderControl/people/HenriqueSchmitz) ou [@Silvxo](https://github.com/orgs/1156UnderControl/people/Silvxo)
